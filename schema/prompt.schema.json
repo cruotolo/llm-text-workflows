@@ -1,0 +1,178 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/llm-text-workflows/schema/prompt.schema.json",
+  "title": "Prompt Record",
+  "description": "Schema for metadata in a reusable LLM Prompt Record.",
+  "type": "object",
+
+  "required": [
+    "id",
+    "title",
+    "version",
+    "contributors",
+    "task",
+    "input_format",
+    "output_format",
+    "license",
+    "status"
+  ],
+
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Stable unique prompt identifier.",
+      "pattern": "^[A-Z]+-[0-9]{3}$",
+      "examples": ["TEI-001", "OCR-002"]
+    },
+
+    "title": {
+      "type": "string",
+      "description": "Brief human-readable title.",
+      "minLength": 5
+    },
+
+    "version": {
+      "type": "string",
+      "description": "Prompt version.",
+      "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$",
+      "examples": ["1.0", "1.1", "2.0.0"]
+    },
+
+    "contributors": {
+      "type": "array",
+      "description": "People or organizations responsible for the prompt record.",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      }
+    },
+
+    "task": {
+      "type": "array",
+      "description": "Primary task or tasks performed by the prompt.",
+      "minItems": 1,
+      "items": {
+        "type": "string",
+        "enum": [
+          "OCR",
+          "HTR",
+          "Transcription",
+          "TEI Encoding",
+          "NER",
+          "Metadata Extraction",
+          "Translation",
+          "Classification",
+          "Summarization",
+          "Quality Assurance",
+          "Other"
+        ]
+      }
+    },
+
+    "language": {
+      "type": "array",
+      "description": "Language or languages expected in the source material.",
+      "items": {
+        "type": "string"
+      }
+    },
+
+    "script": {
+      "type": "array",
+      "description": "Writing system or script.",
+      "items": {
+        "type": "string"
+      },
+      "examples": [["Latin"], ["Greek"], ["Arabic"]]
+    },
+
+    "document_type": {
+      "type": "array",
+      "description": "Kinds of source documents for which the prompt is intended.",
+      "items": {
+        "type": "string"
+      },
+      "examples": [["Printed book"], ["Newspaper"], ["Manuscript"]]
+    },
+
+    "input_format": {
+      "type": "array",
+      "description": "Expected input format.",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      },
+      "examples": [["Page images"], ["Plain text"], ["OCR text"]]
+    },
+
+    "output_format": {
+      "type": "array",
+      "description": "Expected output format.",
+      "minItems": 1,
+      "items": {
+        "type": "string"
+      },
+      "examples": [["TEI XML"], ["Plain text"], ["JSON"]]
+    },
+
+    "reference_model": {
+      "type": "object",
+      "description": "Optional model on which the prompt was first developed or validated. Specific model use is required in Run Records, not Prompt Records.",
+      "properties": {
+        "provider": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "version": {
+          "type": "string"
+        }
+      },
+      "required": ["provider", "name"],
+      "additionalProperties": true
+    },
+
+    "parameters": {
+      "type": "object",
+      "description": "Optional inference parameters used with the reference model, if relevant.",
+      "additionalProperties": true
+    },
+
+    "license": {
+      "type": "string",
+      "description": "License governing reuse of the prompt record.",
+      "examples": ["CC BY 4.0", "CC0 1.0"]
+    },
+
+    "status": {
+      "type": "string",
+      "description": "Lifecycle status of the prompt record.",
+      "enum": [
+        "Draft",
+        "Validated",
+        "Deprecated",
+        "Superseded"
+      ]
+    },
+
+    "related_prompts": {
+      "type": "array",
+      "description": "Identifiers of related prompt records.",
+      "items": {
+        "type": "string",
+        "pattern": "^[A-Z]+-[0-9]{3}$"
+      }
+    },
+
+    "keywords": {
+      "type": "array",
+      "description": "Optional keywords for discovery.",
+      "items": {
+        "type": "string"
+      }
+    }
+  },
+
+  "additionalProperties": false
+}
